@@ -37,9 +37,14 @@ class MyApp extends StatelessWidget {
                 child: Text('Lorem'),
               ),
             ),
-            Card(
-              elevation: 10,
-              child: Text('Lorem'),
+            Column(
+              children: [
+                ...(transactions.map((tx) {
+                  return Card(
+                    child: Text(tx.title),
+                  );
+                }).toList())
+              ],
             ),
           ],
         ),
