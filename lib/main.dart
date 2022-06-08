@@ -1,4 +1,8 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import './transaction.dart';
 
 void main() {
@@ -21,8 +25,13 @@ class MyApp extends StatelessWidget {
     ),
   ];
 
+  MyApp() {
+    initializeDateFormatting('pl_PL');
+  }
+
   @override
   Widget build(BuildContext context) {
+
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(),
@@ -41,11 +50,12 @@ class MyApp extends StatelessWidget {
               children: [
                 ...(transactions.map((tx) {
                   return Card(
+                    elevation: 8,
                     child: Row(
                       children: [
                         Container(
                           child: Text(
-                            tx.amount.toString(),
+                            '${tx.amount} zł',
                             style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
@@ -71,7 +81,7 @@ class MyApp extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              tx.date.toString(),
+                              DateFormat.yMMMMd().format(tx.date),
                               style: TextStyle(
                                 color: Colors.black54,
                               ),
