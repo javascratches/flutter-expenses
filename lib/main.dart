@@ -10,6 +10,10 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
+  MyApp() {
+    initializeDateFormatting('pl_PL');
+  }
+
   final List<Transaction> transactions = [
     Transaction(
       id: 't1',
@@ -25,9 +29,8 @@ class MyApp extends StatelessWidget {
     ),
   ];
 
-  MyApp() {
-    initializeDateFormatting('pl_PL');
-  }
+  String? titleInput;
+  String? amountInput;
 
   @override
   Widget build(BuildContext context) {
@@ -54,12 +57,19 @@ class MyApp extends StatelessWidget {
                   children: [
                     TextField(
                       decoration: InputDecoration(labelText: 'Tytuł'),
+                      onChanged: (value)  {
+                       titleInput = value;
+                      },
                     ),
                     TextField(
                       decoration: InputDecoration(labelText: 'Wartość'),
+                      onChanged: (value) => amountInput = value,
                     ),
                     TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        print(titleInput);
+                        print(amountInput);
+                      },
                       style: TextButton.styleFrom(primary: Colors.purple),
                       child: Text('Dodaj'),
                     ),
