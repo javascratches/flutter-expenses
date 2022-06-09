@@ -32,6 +32,9 @@ class MyApp extends StatelessWidget {
   String? titleInput;
   String? amountInput;
 
+  final titleController = TextEditingController();
+  final amountController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -57,18 +60,15 @@ class MyApp extends StatelessWidget {
                   children: [
                     TextField(
                       decoration: InputDecoration(labelText: 'Tytuł'),
-                      onChanged: (value)  {
-                       titleInput = value;
-                      },
+                      controller: titleController,
                     ),
                     TextField(
                       decoration: InputDecoration(labelText: 'Wartość'),
-                      onChanged: (value) => amountInput = value,
+                      controller: amountController,
                     ),
                     TextButton(
                       onPressed: () {
-                        print(titleInput);
-                        print(amountInput);
+                        print(titleController.text);
                       },
                       style: TextButton.styleFrom(primary: Colors.purple),
                       child: Text('Dodaj'),
