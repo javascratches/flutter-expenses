@@ -31,7 +31,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(),
@@ -44,6 +43,28 @@ class MyApp extends StatelessWidget {
               child: Card(
                 elevation: 10,
                 child: Text('Lorem'),
+              ),
+            ),
+            Card(
+              elevation: 5,
+              child: Container(
+                padding: EdgeInsets.all(10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    TextField(
+                      decoration: InputDecoration(labelText: 'Tytuł'),
+                    ),
+                    TextField(
+                      decoration: InputDecoration(labelText: 'Wartość'),
+                    ),
+                    TextButton(
+                      onPressed: () {},
+                      style: TextButton.styleFrom(primary: Colors.purple),
+                      child: Text('Dodaj'),
+                    ),
+                  ],
+                ),
               ),
             ),
             Column(
