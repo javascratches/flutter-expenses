@@ -1,9 +1,6 @@
-import 'dart:ffi';
-
+import 'package:expenses/widgets/user_transactions.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import './transaction.dart';
 
 void main() {
   runApp(MyApp());
@@ -14,26 +11,8 @@ class MyApp extends StatelessWidget {
     initializeDateFormatting('pl_PL');
   }
 
-  final List<Transaction> transactions = [
-    Transaction(
-      id: 't1',
-      title: 'Nowe szaty',
-      amount: 99.99,
-      date: DateTime.now(),
-    ),
-    Transaction(
-      id: 't2',
-      title: 'Hot dog',
-      amount: 5.99,
-      date: DateTime.now(),
-    ),
-  ];
-
   String? titleInput;
   String? amountInput;
-
-  final titleController = TextEditingController();
-  final amountController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -51,80 +30,7 @@ class MyApp extends StatelessWidget {
                 child: Text('Lorem'),
               ),
             ),
-            Card(
-              elevation: 5,
-              child: Container(
-                padding: EdgeInsets.all(10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    TextField(
-                      decoration: InputDecoration(labelText: 'Tytuł'),
-                      controller: titleController,
-                    ),
-                    TextField(
-                      decoration: InputDecoration(labelText: 'Wartość'),
-                      controller: amountController,
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        print(titleController.text);
-                      },
-                      style: TextButton.styleFrom(primary: Colors.purple),
-                      child: Text('Dodaj'),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Column(
-              children: [
-                ...(transactions.map((tx) {
-                  return Card(
-                    elevation: 8,
-                    child: Row(
-                      children: [
-                        Container(
-                          child: Text(
-                            '${tx.amount} zł',
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.purple,
-                            ),
-                          ),
-                          padding: const EdgeInsets.all(8),
-                          margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-                          decoration: BoxDecoration(
-                              border: Border.all(
-                            color: Colors.purple,
-                            width: 2,
-                          )),
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              tx.title,
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18,
-                              ),
-                            ),
-                            Text(
-                              DateFormat.yMMMMd().format(tx.date),
-                              style: TextStyle(
-                                color: Colors.black54,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  );
-                }).toList())
-              ],
-            ),
+            UserTransactions(),
           ],
         ),
       ),
