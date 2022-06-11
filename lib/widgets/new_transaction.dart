@@ -4,9 +4,9 @@ class NewTransaction extends StatelessWidget {
 
   final titleController = TextEditingController();
   final amountController = TextEditingController();
-  final Function(String title, double amount) newTransactionHanlder;
+  final Function newTransactionHandler;
 
-  NewTransaction(this.newTransactionHanlder);
+  NewTransaction(this.newTransactionHandler);
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +27,7 @@ class NewTransaction extends StatelessWidget {
             ),
             TextButton(
               onPressed: () {
-                newTransactionHanlder(titleController.text, double.parse(amountController.text));
+                newTransactionHandler(titleController.text, double.parse(amountController.text));
               },
               style: TextButton.styleFrom(primary: Colors.purple),
               child: Text('Dodaj'),
