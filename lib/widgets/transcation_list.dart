@@ -10,9 +10,11 @@ class TransactionList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ...(transactions.map((tx) {
+    return Container(
+      height: 2300,
+      child: ListView.builder(
+        itemBuilder: (ctx, index) {
+          var tx = transactions[index];
           return Card(
             elevation: 8,
             child: Row(
@@ -30,9 +32,9 @@ class TransactionList extends StatelessWidget {
                   margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
                   decoration: BoxDecoration(
                       border: Border.all(
-                    color: Colors.purple,
-                    width: 2,
-                  )),
+                        color: Colors.purple,
+                        width: 2,
+                      )),
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -55,8 +57,11 @@ class TransactionList extends StatelessWidget {
               ],
             ),
           );
-        }).toList())
-      ],
+        },
+        itemCount: transactions.length,
+
+
+      ),
     );
   }
 }
