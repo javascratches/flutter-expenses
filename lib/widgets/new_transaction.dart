@@ -13,7 +13,7 @@ class NewTransaction extends StatelessWidget {
     return Card(
       elevation: 5,
       child: Container(
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
@@ -24,11 +24,11 @@ class NewTransaction extends StatelessWidget {
             TextField(
               decoration: InputDecoration(labelText: 'Wartość'),
               controller: amountController,
+              keyboardType: TextInputType.number,
+              onSubmitted: (_) => submitData(),
             ),
             TextButton(
-              onPressed: () {
-                newTransactionHandler(titleController.text, double.parse(amountController.text));
-              },
+              onPressed: submitData,
               style: TextButton.styleFrom(primary: Colors.purple),
               child: Text('Dodaj'),
             ),
@@ -36,5 +36,16 @@ class NewTransaction extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void submitData() {
+    var text = titleController.text;
+    var amount = double.parse(amountController.text);
+
+    if (text.isEmpty || amount <= 0) {
+      return;
+    }
+
+    newTransactionHandler(text, amount);
   }
 }

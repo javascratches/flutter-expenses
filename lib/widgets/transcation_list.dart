@@ -11,7 +11,7 @@ class TransactionList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 2300,
+      height: 300,
       child: ListView.builder(
         itemBuilder: (ctx, index) {
           var tx = transactions[index];
@@ -21,7 +21,7 @@ class TransactionList extends StatelessWidget {
               children: [
                 Container(
                   child: Text(
-                    '${tx.amount} zł',
+                    '${tx.amount.toStringAsFixed(2)} zł',
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
@@ -47,7 +47,7 @@ class TransactionList extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      DateFormat.yMMMMd().format(tx.date),
+                      DateFormat.yMMMMd('pl_PL').format(tx.date),
                       style: TextStyle(
                         color: Colors.black54,
                       ),
