@@ -18,7 +18,19 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.add),
+          onPressed: () {},
+        ),
+        appBar: AppBar(
+          actions: [
+            IconButton(
+              onPressed: () {},
+              icon: new Icon(Icons.add),
+            )
+          ],
+        ),
         body: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
