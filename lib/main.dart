@@ -1,3 +1,4 @@
+import 'package:expenses/widgets/chart.dart';
 import 'package:expenses/widgets/new_transaction.dart';
 import 'package:expenses/widgets/transcation_list.dart';
 import 'package:flutter/material.dart';
@@ -20,19 +21,25 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   final List<Transaction> _transactions = [
-    // Transaction(
-    //   id: 't1',
-    //   title: 'Nowe szaty',
-    //   amount: 99.99,
-    //   date: DateTime.now(),
-    // ),
-    // Transaction(
-    //   id: 't2',
-    //   title: 'Hot dog',
-    //   amount: 5.99,
-    //   date: DateTime.now(),
-    // ),
+    Transaction(
+      id: 't1',
+      title: 'Nowe szaty',
+      amount: 99.99,
+      date: DateTime.now().subtract(const Duration(days: 1)),
+    ),
+    Transaction(
+      id: 't2',
+      title: 'Hot dog',
+      amount: 5.99,
+      date: DateTime.now(),
+    ),
   ];
+
+  List<Transaction> get recentTransactions {
+    return _transactions.where((tx) {
+      return tx.date.isAfter(DateTime.now().subtract(const Duration(days: 7)));
+    }).toList();
+  }
 
   void _addNewTransaction(String title, double amount) {
     final newTransaction = Transaction(
@@ -96,7 +103,7 @@ class _MyAppState extends State<MyApp> {
             Builder(
               builder: (context) => IconButton(
                 onPressed: () => _startAddNewTransaction(context),
-                icon: new Icon(Icons.add),
+                icon: const Icon(Icons.add),
               ),
             )
           ],
@@ -106,13 +113,7 @@ class _MyAppState extends State<MyApp> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Container(
-                width: double.infinity,
-                child: Card(
-                  elevation: 10,
-                  child: Text('Lorem'),
-                ),
-              ),
+              Chart(recentTransactions),
               TransactionList(_transactions),
             ],
           ),
