@@ -61,7 +61,16 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = ThemeData(
+      primarySwatch: Colors.purple,
+    );
     return MaterialApp(
+      theme: theme.copyWith(
+        colorScheme: theme.colorScheme.copyWith(
+          secondary: Colors.amber,
+        ),
+      ),
+      title: 'Manager wydatków',
       home: Scaffold(
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: Builder(
@@ -71,6 +80,7 @@ class _MyAppState extends State<MyApp> {
           ),
         ),
         appBar: AppBar(
+          title: const Text('Manager wydatków'),
           actions: [
             Builder(
               builder: (context) => IconButton(

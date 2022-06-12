@@ -11,7 +11,7 @@ class TransactionList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 300,
+      height: 600,
       child: ListView.builder(
         itemBuilder: (ctx, index) {
           var tx = transactions[index];
@@ -25,14 +25,14 @@ class TransactionList extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
-                      color: Colors.purple,
+                      color: Theme.of(context).primaryColor,
                     ),
                   ),
                   padding: const EdgeInsets.all(8),
                   margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
                   decoration: BoxDecoration(
                       border: Border.all(
-                        color: Colors.purple,
+                        color: Theme.of(context).primaryColorLight,
                         width: 2,
                       )),
                 ),

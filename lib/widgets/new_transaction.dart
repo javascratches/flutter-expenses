@@ -54,5 +54,7 @@ class _NewTransactionState extends State<NewTransaction> {
     }
 
     widget.newTransactionHandler(text, amount);
+
+    Navigator.of(context).pop();
   }
 }
