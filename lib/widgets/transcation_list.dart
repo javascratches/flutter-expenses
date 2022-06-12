@@ -3,7 +3,6 @@ import '../models/transaction.dart';
 import 'package:intl/intl.dart';
 
 class TransactionList extends StatelessWidget {
-
   final List<Transaction> transactions;
 
   TransactionList(this.transactions);
@@ -22,19 +21,15 @@ class TransactionList extends StatelessWidget {
                 Container(
                   child: Text(
                     '${tx.amount.toStringAsFixed(2)} zł',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Theme.of(context).primaryColor,
-                    ),
+                    style: Theme.of(context).textTheme.titleLarge,
                   ),
                   padding: const EdgeInsets.all(8),
                   margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
                   decoration: BoxDecoration(
                       border: Border.all(
-                        color: Theme.of(context).primaryColorLight,
-                        width: 2,
-                      )),
+                    color: Theme.of(context).primaryColorLight,
+                    width: 2,
+                  )),
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -59,8 +54,6 @@ class TransactionList extends StatelessWidget {
           );
         },
         itemCount: transactions.length,
-
-
       ),
     );
   }

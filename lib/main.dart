@@ -63,7 +63,16 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     final theme = ThemeData(
       primarySwatch: Colors.purple,
+      fontFamily: 'Quicksand',
+      textTheme: ThemeData.light().textTheme.copyWith(
+            titleLarge: TextStyle(
+              fontFamily: 'OpenSans',
+              fontWeight: FontWeight.bold,
+              fontSize: 22,
+            ),
+          ),
     );
+
     return MaterialApp(
       theme: theme.copyWith(
         colorScheme: theme.colorScheme.copyWith(
@@ -80,7 +89,9 @@ class _MyAppState extends State<MyApp> {
           ),
         ),
         appBar: AppBar(
-          title: const Text('Manager wydatków'),
+          title: const Text(
+            'Manager wydatków',
+          ),
           actions: [
             Builder(
               builder: (context) => IconButton(
