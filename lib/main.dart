@@ -33,6 +33,18 @@ class _MyAppState extends State<MyApp> {
       amount: 5.99,
       date: DateTime.now(),
     ),
+    Transaction(
+      id: 't3',
+      title: 'Majtki',
+      amount: 29.99,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: 't4',
+      title: 'Skarpety',
+      amount: 99.99,
+      date: DateTime.now().subtract(const Duration(days: 3)),
+    ),
   ];
 
   List<Transaction> get recentTransactions {
