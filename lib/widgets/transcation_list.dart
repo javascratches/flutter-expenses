@@ -32,41 +32,25 @@ class TransactionList extends StatelessWidget {
               itemBuilder: (ctx, index) {
                 var tx = transactions[index];
                 return Card(
-                  elevation: 8,
-                  child: Row(
-                    children: [
-                      Container(
-                        child: Text(
-                          '${tx.amount.toStringAsFixed(2)} zł',
-                          style: Theme.of(context).textTheme.titleLarge,
+                  elevation: 10,
+                  margin: EdgeInsets.symmetric(vertical: 8, horizontal: 5),
+                  child: ListTile(
+                    leading: CircleAvatar(
+                      radius: 30,
+                      child: Padding(
+                        padding: EdgeInsets.all(6),
+                        child: FittedBox(
+                          child: Text('${tx.amount.toStringAsFixed(2)} zł'),
                         ),
-                        padding: const EdgeInsets.all(8),
-                        margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                          color: Theme.of(context).primaryColorLight,
-                          width: 2,
-                        )),
                       ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            tx.title,
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18,
-                            ),
-                          ),
-                          Text(
-                            DateFormat.yMMMMd('pl_PL').format(tx.date),
-                            style: TextStyle(
-                              color: Colors.black54,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
+                    ),
+                    title: Text(
+                      tx.title,
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                    subtitle: Text(
+                      DateFormat.yMMMMd('pl_PL').format(tx.date),
+                    ),
                   ),
                 );
               },
