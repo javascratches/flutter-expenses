@@ -83,9 +83,9 @@ class _MyAppState extends State<MyApp> {
     final theme = ThemeData(
       primarySwatch: Colors.purple,
       fontFamily: 'Quicksand',
-      textTheme: ThemeData.light().textTheme.copyWith(
+      textTheme: const TextTheme(
             titleLarge: TextStyle(
-              fontFamily: 'OpenSans',
+              fontFamily: 'Quicksand',
               fontWeight: FontWeight.bold,
               fontSize: 22,
             ),
@@ -103,7 +103,7 @@ class _MyAppState extends State<MyApp> {
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: Builder(
           builder: (context) => FloatingActionButton(
-            child: Icon(Icons.add),
+            child: const Icon(Icons.add),
             onPressed: () => _startAddNewTransaction(context),
           ),
         ),
