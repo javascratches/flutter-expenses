@@ -2,7 +2,7 @@ import 'package:expenses/widgets/chart.dart';
 import 'package:expenses/widgets/new_transaction.dart';
 import 'package:expenses/widgets/transcation_list.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/date_symbol_data_local.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'models/transaction.dart';
 
@@ -12,7 +12,7 @@ void main() {
 
 class MyApp extends StatefulWidget {
   MyApp() {
-    initializeDateFormatting('pl_PL');
+
   }
 
   @override
@@ -99,6 +99,9 @@ class _MyAppState extends State<MyApp> {
     );
 
     return MaterialApp(
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate
+      ],
       theme: theme.copyWith(
         colorScheme: theme.colorScheme.copyWith(
           secondary: Colors.amber,
