@@ -90,12 +90,12 @@ class _MyAppState extends State<MyApp> {
       primarySwatch: Colors.purple,
       fontFamily: 'Quicksand',
       textTheme: const TextTheme(
-            titleLarge: TextStyle(
-              fontFamily: 'Quicksand',
-              fontWeight: FontWeight.bold,
-              fontSize: 24,
-            ),
-          ),
+        titleLarge: TextStyle(
+          fontFamily: 'Quicksand',
+          fontWeight: FontWeight.bold,
+          fontSize: 24,
+        ),
+      ),
     );
 
     return MaterialApp(
