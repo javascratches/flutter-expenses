@@ -1,4 +1,7 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class NewTransaction extends StatefulWidget {
   final Function newTransactionHandler;
@@ -10,9 +13,9 @@ class NewTransaction extends StatefulWidget {
 }
 
 class _NewTransactionState extends State<NewTransaction> {
-  final titleController = TextEditingController();
-
-  final amountController = TextEditingController();
+  final _titleController = TextEditingController();
+  final _amountController = TextEditingController();
+  DateTime? _selectedDate;
 
   @override
   Widget build(BuildContext context) {
@@ -25,21 +28,25 @@ class _NewTransactionState extends State<NewTransaction> {
           children: [
             TextField(
               decoration: InputDecoration(labelText: 'Tytuł'),
-              controller: titleController,
+              controller: _titleController,
             ),
             TextField(
               decoration: InputDecoration(labelText: 'Wartość'),
-              controller: amountController,
+              controller: _amountController,
               keyboardType: TextInputType.number,
-              onSubmitted: (_) => submitData(),
+              onSubmitted: (_) => _submitData(),
             ),
             Container(
               height: 70,
               child: Row(
                 children: [
-                  const Text('Nie wybrano daty'),
+                  Expanded(
+                    child: Text(_selectedDate == null ? 'Nie wybrano daty' : 'Data: ${DateFormat.yMd('pl_PL').format(_selectedDate!)}'),
+                  ),
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      _presentDatePicker();
+                    },
                     child: const Text(
                       'Wybierz datę',
                       style: TextStyle(fontWeight: FontWeight.bold),
@@ -49,7 +56,7 @@ class _NewTransactionState extends State<NewTransaction> {
               ),
             ),
             ElevatedButton(
-              onPressed: submitData,
+              onPressed: _submitData,
               child: const Text('Dodaj'),
             ),
           ],
@@ -58,16 +65,31 @@ class _NewTransactionState extends State<NewTransaction> {
     );
   }
 
-  void submitData() {
-    var text = titleController.text;
-    var amount = double.parse(amountController.text);
+  void _submitData() {
+    var text = _titleController.text;
+    var amount = double.parse(_amountController.text);
 
     if (text.isEmpty || amount <= 0) {
       return;
     }
 
     widget.newTransactionHandler(text, amount);
-
     Navigator.of(context).pop();
+  }
+
+  void _presentDatePicker() {
+    showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2019),
+      lastDate: DateTime.now(),
+    ).then((pickedDate) {
+      if (pickedDate == null) {
+        return;
+      }
+      setState(() {
+        _selectedDate = pickedDate;
+      });
+    });
   }
 }

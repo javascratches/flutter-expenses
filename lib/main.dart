@@ -87,7 +87,7 @@ class _MyAppState extends State<MyApp> {
             titleLarge: TextStyle(
               fontFamily: 'Quicksand',
               fontWeight: FontWeight.bold,
-              fontSize: 22,
+              fontSize: 24,
             ),
           ),
     );
