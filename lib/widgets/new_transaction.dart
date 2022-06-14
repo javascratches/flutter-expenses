@@ -82,6 +82,7 @@ class _NewTransactionState extends State<NewTransaction> {
 
   void _presentDatePicker() {
     showDatePicker(
+      locale: Locale('pl', 'PL'),
       context: context,
       initialDate: DateTime.now(),
       firstDate: DateTime(2019),
