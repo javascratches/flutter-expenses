@@ -37,7 +37,12 @@ class TransactionList extends StatelessWidget {
                   margin: EdgeInsets.symmetric(vertical: 8, horizontal: 5),
                   child: Dismissible(
                     key: Key(tx.id),
-                    onDismissed: (_) {deleteTransactionHandler(tx.id);},
+                    onDismissed: (_) {
+                      deleteTransactionHandler(tx.id);
+                    },
+                    background: Container(
+                      color: Theme.of(context).errorColor,
+                    ),
                     child: ListTile(
                         leading: CircleAvatar(
                           radius: 30,
