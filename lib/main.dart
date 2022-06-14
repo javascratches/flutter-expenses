@@ -78,6 +78,12 @@ class _MyAppState extends State<MyApp> {
         });
   }
 
+  void _deleteTransaction(String id) {
+    setState(() {
+      _transactions.removeWhere((tx) => tx.id == id);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = ThemeData(
@@ -126,7 +132,7 @@ class _MyAppState extends State<MyApp> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Chart(recentTransactions),
-              TransactionList(_transactions),
+              TransactionList(_transactions, _deleteTransaction),
             ],
           ),
         ),
