@@ -11,9 +11,7 @@ void main() {
 }
 
 class MyApp extends StatefulWidget {
-  MyApp() {
-
-  }
+  MyApp() {}
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -98,10 +96,22 @@ class _MyAppState extends State<MyApp> {
       ),
     );
 
-    return MaterialApp(
-      localizationsDelegates: [
-        GlobalMaterialLocalizations.delegate
+    final AppBar appBar = AppBar(
+      title: const Text(
+        'Manager wydatków',
+      ),
+      actions: [
+        Builder(
+          builder: (context) => IconButton(
+            onPressed: () => _startAddNewTransaction(context),
+            icon: const Icon(Icons.add),
+          ),
+        )
       ],
+    );
+
+    return MaterialApp(
+      localizationsDelegates: [GlobalMaterialLocalizations.delegate],
       theme: theme.copyWith(
         colorScheme: theme.colorScheme.copyWith(
           secondary: Colors.amber,
@@ -116,27 +126,23 @@ class _MyAppState extends State<MyApp> {
             onPressed: () => _startAddNewTransaction(context),
           ),
         ),
-        appBar: AppBar(
-          title: const Text(
-            'Manager wydatków',
-          ),
-          actions: [
-            Builder(
-              builder: (context) => IconButton(
-                onPressed: () => _startAddNewTransaction(context),
-                icon: const Icon(Icons.add),
-              ),
-            )
-          ],
-        ),
-        body: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Chart(recentTransactions),
-              TransactionList(_transactions, _deleteTransaction),
-            ],
+        appBar: appBar,
+        body: Builder(
+          builder: (context) => SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Container(
+                  height: (MediaQuery.of(context).size.height - appBar.preferredSize.height - MediaQuery.of(context).padding.top) * 0.4,
+                  child: Chart(recentTransactions),
+                ),
+                Container(
+                  height: (MediaQuery.of(context).size.height - appBar.preferredSize.height - MediaQuery.of(context).padding.top) * 0.6,
+                  child: TransactionList(_transactions, _deleteTransaction),
+                ),
+              ],
+            ),
           ),
         ),
       ),
