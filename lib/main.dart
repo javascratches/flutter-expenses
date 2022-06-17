@@ -87,8 +87,6 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    // final isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
-
     final theme = ThemeData(
       primarySwatch: Colors.purple,
       fontFamily: 'Quicksand',
@@ -115,14 +113,14 @@ class _MyAppState extends State<MyApp> {
       ],
     );
 
-    // final transactionList = Container(
-    //   height: (MediaQuery.of(context).size.height -
-    //       appBar.preferredSize.height -
-    //       MediaQuery.of(context).padding.top -
-    //       MediaQuery.of(context).padding.bottom) *
-    //       (_showChart ? 0.7 : 1),
-    //   child: TransactionList(_transactions, _deleteTransaction),
-    // );
+    var transactionList = Builder(builder: (context) {
+      return Container(
+        height:
+            (MediaQuery.of(context).size.height - appBar.preferredSize.height - MediaQuery.of(context).padding.top - MediaQuery.of(context).padding.bottom) *
+                (_showChart ? 0.7 : 1),
+        child: TransactionList(_transactions, _deleteTransaction),
+      );
+    });
 
     return MaterialApp(
       localizationsDelegates: [GlobalMaterialLocalizations.delegate],
@@ -141,42 +139,45 @@ class _MyAppState extends State<MyApp> {
           ),
         ),
         appBar: appBar,
-        body: Builder(
-          builder: (context) => SingleChildScrollView(
+        body: OrientationBuilder(
+          builder: (context, orientation) => SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                if (MediaQuery.of(context).orientation == Orientation.landscape) Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text('Wykres'),
-                    Switch(
-                        value: _showChart,
-                        onChanged: (_) {
-                          setState(() {
-                            _showChart = !_showChart;
-                          });
-                        }),
-                  ],
-                ),
-                Container(
-                  height: (MediaQuery.of(context).size.height -
-                          appBar.preferredSize.height -
-                          MediaQuery.of(context).padding.top -
-                          MediaQuery.of(context).padding.bottom) *
-                      0.6,
-                  child: _showChart
-                      ? Chart(recentTransactions)
-                      : Container(
-                          height: (MediaQuery.of(context).size.height -
-                                  appBar.preferredSize.height -
-                                  MediaQuery.of(context).padding.top -
-                                  MediaQuery.of(context).padding.bottom) *
-                              (_showChart ? 0.7 : 1),
-                          child: TransactionList(_transactions, _deleteTransaction),
-                        ),
-                ),
+                if (orientation == Orientation.landscape)
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text('Wykres'),
+                      Switch(
+                          value: _showChart,
+                          onChanged: (_) {
+                            setState(() {
+                              _showChart = !_showChart;
+                            });
+                          }),
+                    ],
+                  ),
+                if (orientation != Orientation.landscape)
+                  Container(
+                    height: (MediaQuery.of(context).size.height -
+                            appBar.preferredSize.height -
+                            MediaQuery.of(context).padding.top -
+                            MediaQuery.of(context).padding.bottom) *
+                        0.3,
+                    child: Chart(recentTransactions),
+                  ),
+                if (orientation != Orientation.landscape) transactionList,
+                if (orientation == Orientation.landscape)
+                  Container(
+                    height: (MediaQuery.of(context).size.height -
+                            appBar.preferredSize.height -
+                            MediaQuery.of(context).padding.top -
+                            MediaQuery.of(context).padding.bottom) *
+                        0.6,
+                    child: _showChart ? Chart(recentTransactions) : transactionList,
+                  ),
               ],
             ),
           ),
