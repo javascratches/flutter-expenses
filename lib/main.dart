@@ -87,6 +87,8 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    // final isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
+
     final theme = ThemeData(
       primarySwatch: Colors.purple,
       fontFamily: 'Quicksand',
@@ -113,6 +115,15 @@ class _MyAppState extends State<MyApp> {
       ],
     );
 
+    // final transactionList = Container(
+    //   height: (MediaQuery.of(context).size.height -
+    //       appBar.preferredSize.height -
+    //       MediaQuery.of(context).padding.top -
+    //       MediaQuery.of(context).padding.bottom) *
+    //       (_showChart ? 0.7 : 1),
+    //   child: TransactionList(_transactions, _deleteTransaction),
+    // );
+
     return MaterialApp(
       localizationsDelegates: [GlobalMaterialLocalizations.delegate],
       theme: theme.copyWith(
@@ -136,7 +147,7 @@ class _MyAppState extends State<MyApp> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Row(
+                if (MediaQuery.of(context).orientation == Orientation.landscape) Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Text('Wykres'),
