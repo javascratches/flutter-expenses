@@ -19,6 +19,7 @@ class _NewTransactionState extends State<NewTransaction> {
 
   @override
   Widget build(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context);
     return SingleChildScrollView(
       child: Card(
         elevation: 5,
@@ -27,7 +28,7 @@ class _NewTransactionState extends State<NewTransaction> {
             top: 10,
             left: 10,
             right: 10,
-            bottom: MediaQuery.of(context).viewInsets.bottom,
+            bottom: mediaQuery.viewInsets.bottom,
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,

@@ -1,9 +1,11 @@
+import 'dart:io';
+
+import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+
 import 'package:expenses/widgets/chart.dart';
 import 'package:expenses/widgets/new_transaction.dart';
 import 'package:expenses/widgets/transcation_list.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'models/transaction.dart';
 
@@ -123,7 +125,7 @@ class _MyAppState extends State<MyApp> {
     });
 
     return MaterialApp(
-      localizationsDelegates: [GlobalMaterialLocalizations.delegate],
+      localizationsDelegates: const [GlobalMaterialLocalizations.delegate],
       theme: theme.copyWith(
         colorScheme: theme.colorScheme.copyWith(
           secondary: Colors.amber,
@@ -133,7 +135,7 @@ class _MyAppState extends State<MyApp> {
       home: Scaffold(
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: Builder(
-          builder: (context) => FloatingActionButton(
+          builder: (context) => Platform.isIOS ? Container() : FloatingActionButton(
             child: const Icon(Icons.add),
             onPressed: () => _startAddNewTransaction(context),
           ),
@@ -150,7 +152,7 @@ class _MyAppState extends State<MyApp> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const Text('Wykres'),
-                      Switch(
+                      Switch.adaptive(
                           value: _showChart,
                           onChanged: (_) {
                             setState(() {
