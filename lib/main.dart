@@ -102,7 +102,7 @@ class _MyAppState extends State<MyApp> {
       ),
     );
 
-    final dynamic appBar = !Platform.isIOS
+    final dynamic appBar = Platform.isIOS
         ? CupertinoNavigationBar(
             middle: Text('Manager wydatków'),
             trailing: Row(
@@ -141,68 +141,71 @@ class _MyAppState extends State<MyApp> {
     });
 
     final pageBody = OrientationBuilder(
-      builder: (context, orientation) => SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            if (orientation == Orientation.landscape)
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text('Wykres'),
-                  Switch.adaptive(
-                      value: _showChart,
-                      onChanged: (_) {
-                        setState(() {
-                          _showChart = !_showChart;
-                        });
-                      }),
-                ],
-              ),
-            if (orientation != Orientation.landscape)
-              Container(
-                height: (MediaQuery.of(context).size.height -
-                        appBar.preferredSize.height -
-                        MediaQuery.of(context).padding.top -
-                        MediaQuery.of(context).padding.bottom) *
-                    0.3,
-                child: Chart(recentTransactions),
-              ),
-            if (orientation != Orientation.landscape) transactionList,
-            if (orientation == Orientation.landscape)
-              Container(
-                height: (MediaQuery.of(context).size.height -
-                        appBar.preferredSize.height -
-                        MediaQuery.of(context).padding.top -
-                        MediaQuery.of(context).padding.bottom) *
-                    0.6,
-                child: _showChart ? Chart(recentTransactions) : transactionList,
-              ),
-          ],
+      builder: (context, orientation) => SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              if (orientation == Orientation.landscape)
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text('Wykres'),
+                    Switch.adaptive(
+                        value: _showChart,
+                        onChanged: (_) {
+                          setState(() {
+                            _showChart = !_showChart;
+                          });
+                        }),
+                  ],
+                ),
+              if (orientation != Orientation.landscape)
+                Container(
+                  height: (MediaQuery.of(context).size.height -
+                          appBar.preferredSize.height -
+                          MediaQuery.of(context).padding.top -
+                          MediaQuery.of(context).padding.bottom) *
+                      0.3,
+                  child: Chart(recentTransactions),
+                ),
+              if (orientation != Orientation.landscape) transactionList,
+              if (orientation == Orientation.landscape)
+                Container(
+                  height: (MediaQuery.of(context).size.height -
+                          appBar.preferredSize.height -
+                          MediaQuery.of(context).padding.top -
+                          MediaQuery.of(context).padding.bottom) *
+                      0.6,
+                  child: _showChart ? Chart(recentTransactions) : transactionList,
+                ),
+            ],
+          ),
         ),
       ),
     );
 
-    return MaterialApp(
-      localizationsDelegates: const [GlobalMaterialLocalizations.delegate],
-      theme: theme.copyWith(
-        colorScheme: theme.colorScheme.copyWith(
-          secondary: Colors.amber,
-        ),
-      ),
-      title: 'Manager wydatków',
-      home: !Platform.isIOS
-          ? CupertinoPageScaffold(
+    return Platform.isIOS
+        ? CupertinoApp(
+            title: 'Manager wydatków',
+            localizationsDelegates: const [GlobalMaterialLocalizations.delegate],
+            home: CupertinoPageScaffold(
               child: pageBody,
               navigationBar: appBar,
-            )
-          : Scaffold(
+            ))
+        : MaterialApp(
+            localizationsDelegates: const [GlobalMaterialLocalizations.delegate],
+            theme: theme.copyWith(
+              colorScheme: theme.colorScheme.copyWith(
+                secondary: Colors.amber,
+              ),
+            ),
+            title: 'Manager wydatków',
+            home: Scaffold(
               floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
               floatingActionButton: Builder(
-                builder: (context) => Platform.isIOS
-                    ? Container()
-                    : FloatingActionButton(
+                builder: (context) => FloatingActionButton(
                         child: const Icon(Icons.add),
                         onPressed: () => _startAddNewTransaction(context),
                       ),
@@ -210,6 +213,6 @@ class _MyAppState extends State<MyApp> {
               appBar: appBar,
               body: pageBody,
             ),
-    );
+          );
   }
 }
