@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
@@ -101,19 +102,34 @@ class _MyAppState extends State<MyApp> {
       ),
     );
 
-    final AppBar appBar = AppBar(
-      title: const Text(
-        'Manager wydatków',
-      ),
-      actions: [
-        Builder(
-          builder: (context) => IconButton(
-            onPressed: () => _startAddNewTransaction(context),
-            icon: const Icon(Icons.add),
-          ),
-        )
-      ],
-    );
+    final dynamic appBar = !Platform.isIOS
+        ? CupertinoNavigationBar(
+            middle: Text('Manager wydatków'),
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Builder(
+                    builder: (context) => GestureDetector(
+                          onTap: () => _startAddNewTransaction(context),
+                          child: Icon(CupertinoIcons.add),
+                        ))
+              ],
+            ),
+          )
+        : AppBar(
+            title: const Text(
+              'Manager wydatków',
+            ),
+            actions: [
+              Builder(
+                builder: (context) => IconButton(
+                  onPressed: () => _startAddNewTransaction(context),
+                  icon: const Icon(Icons.add),
+                ),
+              )
+            ],
+          );
 
     var transactionList = Builder(builder: (context) {
       return Container(
@@ -124,6 +140,50 @@ class _MyAppState extends State<MyApp> {
       );
     });
 
+    final pageBody = OrientationBuilder(
+      builder: (context, orientation) => SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            if (orientation == Orientation.landscape)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text('Wykres'),
+                  Switch.adaptive(
+                      value: _showChart,
+                      onChanged: (_) {
+                        setState(() {
+                          _showChart = !_showChart;
+                        });
+                      }),
+                ],
+              ),
+            if (orientation != Orientation.landscape)
+              Container(
+                height: (MediaQuery.of(context).size.height -
+                        appBar.preferredSize.height -
+                        MediaQuery.of(context).padding.top -
+                        MediaQuery.of(context).padding.bottom) *
+                    0.3,
+                child: Chart(recentTransactions),
+              ),
+            if (orientation != Orientation.landscape) transactionList,
+            if (orientation == Orientation.landscape)
+              Container(
+                height: (MediaQuery.of(context).size.height -
+                        appBar.preferredSize.height -
+                        MediaQuery.of(context).padding.top -
+                        MediaQuery.of(context).padding.bottom) *
+                    0.6,
+                child: _showChart ? Chart(recentTransactions) : transactionList,
+              ),
+          ],
+        ),
+      ),
+    );
+
     return MaterialApp(
       localizationsDelegates: const [GlobalMaterialLocalizations.delegate],
       theme: theme.copyWith(
@@ -132,59 +192,24 @@ class _MyAppState extends State<MyApp> {
         ),
       ),
       title: 'Manager wydatków',
-      home: Scaffold(
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        floatingActionButton: Builder(
-          builder: (context) => Platform.isIOS ? Container() : FloatingActionButton(
-            child: const Icon(Icons.add),
-            onPressed: () => _startAddNewTransaction(context),
-          ),
-        ),
-        appBar: appBar,
-        body: OrientationBuilder(
-          builder: (context, orientation) => SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                if (orientation == Orientation.landscape)
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text('Wykres'),
-                      Switch.adaptive(
-                          value: _showChart,
-                          onChanged: (_) {
-                            setState(() {
-                              _showChart = !_showChart;
-                            });
-                          }),
-                    ],
-                  ),
-                if (orientation != Orientation.landscape)
-                  Container(
-                    height: (MediaQuery.of(context).size.height -
-                            appBar.preferredSize.height -
-                            MediaQuery.of(context).padding.top -
-                            MediaQuery.of(context).padding.bottom) *
-                        0.3,
-                    child: Chart(recentTransactions),
-                  ),
-                if (orientation != Orientation.landscape) transactionList,
-                if (orientation == Orientation.landscape)
-                  Container(
-                    height: (MediaQuery.of(context).size.height -
-                            appBar.preferredSize.height -
-                            MediaQuery.of(context).padding.top -
-                            MediaQuery.of(context).padding.bottom) *
-                        0.6,
-                    child: _showChart ? Chart(recentTransactions) : transactionList,
-                  ),
-              ],
+      home: !Platform.isIOS
+          ? CupertinoPageScaffold(
+              child: pageBody,
+              navigationBar: appBar,
+            )
+          : Scaffold(
+              floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+              floatingActionButton: Builder(
+                builder: (context) => Platform.isIOS
+                    ? Container()
+                    : FloatingActionButton(
+                        child: const Icon(Icons.add),
+                        onPressed: () => _startAddNewTransaction(context),
+                      ),
+              ),
+              appBar: appBar,
+              body: pageBody,
             ),
-          ),
-        ),
-      ),
     );
   }
 }
