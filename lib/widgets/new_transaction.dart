@@ -1,5 +1,7 @@
+import 'dart:io';
 import 'dart:math';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -50,22 +52,30 @@ class _NewTransactionState extends State<NewTransaction> {
                     Expanded(
                       child: Text(_selectedDate == null ? 'Nie wybrano daty' : 'Data: ${DateFormat.yMd('pl_PL').format(_selectedDate!)}'),
                     ),
-                    TextButton(
-                      onPressed: () {
-                        _presentDatePicker();
-                      },
-                      child: const Text(
-                        'Wybierz datę',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                    )
+                    Platform.isIOS
+                        ? CupertinoButton(
+                            onPressed: _presentDatePicker,
+                            child: const Text('Wybierz datę'),
+                          )
+                        : TextButton(
+                            onPressed: _presentDatePicker,
+                            child: const Text(
+                              'Wybierz datę',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                          )
                   ],
                 ),
               ),
-              ElevatedButton(
-                onPressed: _submitData,
-                child: const Text('Dodaj'),
-              ),
+              Platform.isIOS
+                  ? CupertinoButton(
+                      onPressed: _submitData,
+                      child: const Text('Dodaj'),
+                    )
+                  : ElevatedButton(
+                      onPressed: _submitData,
+                      child: const Text('Dodaj'),
+                    ),
             ],
           ),
         ),
