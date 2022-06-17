@@ -12,20 +12,16 @@ class TransactionList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: transactions.isEmpty
-          ? LayoutBuilder(
-            builder: (ctx, constraints) {
+          ? LayoutBuilder(builder: (ctx, constraints) {
               return Column(
                 children: [
                   Text(
                     'Nie zarejestrowano jeszcze żadnych wydatków',
-                    style: Theme
-                        .of(context)
-                        .textTheme
-                        .titleMedium,
+                    style: Theme.of(context).textTheme.titleMedium,
                   ),
                   const SizedBox(height: 10),
                   Container(
-                    height: constraints.maxHeight * 0.7,
+                    height: constraints.maxHeight * 0.5,
                     child: Image.asset(
                       'assets/images/waiting.png',
                       fit: BoxFit.cover,
@@ -33,8 +29,7 @@ class TransactionList extends StatelessWidget {
                   ),
                 ],
               );
-            }
-          )
+            })
           : ListView.builder(
               itemBuilder: (ctx, index) {
                 var tx = transactions[index];
@@ -50,29 +45,36 @@ class TransactionList extends StatelessWidget {
                       color: Theme.of(context).errorColor,
                     ),
                     child: ListTile(
-                        leading: CircleAvatar(
-                          radius: 30,
-                          child: Padding(
-                            padding: EdgeInsets.all(6),
-                            child: FittedBox(
-                              child: Text('${tx.amount.toStringAsFixed(2)} zł'),
-                            ),
+                      leading: CircleAvatar(
+                        radius: 30,
+                        child: Padding(
+                          padding: EdgeInsets.all(6),
+                          child: FittedBox(
+                            child: Text('${tx.amount.toStringAsFixed(2)} zł'),
                           ),
                         ),
-                        title: Text(
-                          tx.title,
-                          style: Theme.of(context).textTheme.titleMedium,
-                        ),
-                        subtitle: Text(
-                          DateFormat.yMMMMd('pl_PL').format(tx.date),
-                        ),
-                        trailing: IconButton(
-                          icon: const Icon(Icons.delete),
-                          color: Theme.of(context).errorColor,
-                          onPressed: () {
-                            deleteTransactionHandler(tx.id);
-                          },
-                        )),
+                      ),
+                      title: Text(
+                        tx.title,
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                      subtitle: Text(
+                        DateFormat.yMMMMd('pl_PL').format(tx.date),
+                      ),
+                      trailing: MediaQuery.of(context).size.width > 360
+                          ? TextButton.icon(
+                              onPressed: () => deleteTransactionHandler(tx.id),
+                              icon: const Icon(Icons.delete),
+                              label: const Text('Usuń'),
+                            )
+                          : IconButton(
+                              icon: const Icon(Icons.delete),
+                              color: Theme.of(context).errorColor,
+                              onPressed: () {
+                                deleteTransactionHandler(tx.id);
+                              },
+                            ),
+                    ),
                   ),
                 );
               },
