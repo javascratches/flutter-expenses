@@ -21,7 +21,7 @@ class MyApp extends StatefulWidget {
   State<MyApp> createState() => _MyAppState();
 }
 
-class _MyAppState extends State<MyApp> {
+class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   final List<Transaction> _transactions = [
     Transaction(
       id: 't1',
@@ -62,6 +62,24 @@ class _MyAppState extends State<MyApp> {
   ];
 
   bool _showChart = false;
+
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addObserver(this);
+    super.initState();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    print('didChangeAppLifecycleState $state');
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
 
   List<Transaction> get recentTransactions {
     return _transactions.where((tx) {
