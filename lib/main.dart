@@ -140,6 +140,38 @@ class _MyAppState extends State<MyApp> {
       );
     });
 
+    List<Widget> _buildLandscapeContent(BuildContext context) {
+      var mediaQuery = MediaQuery.of(context);
+      return [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text('Wykres'),
+            Switch.adaptive(
+              value: _showChart,
+              onChanged: (_) => setState(() => _showChart = !_showChart),
+            )
+          ],
+        ),
+        SizedBox(
+          height: (mediaQuery.size.height - appBar.preferredSize.height - mediaQuery.padding.top - mediaQuery.padding.bottom) * 0.6,
+          child: _showChart ? Chart(recentTransactions) : transactionList,
+        )
+      ];
+    }
+
+    List<Widget> _buildPortraitContent(BuildContext context) {
+      return [
+        SizedBox(
+          height:
+              (MediaQuery.of(context).size.height - appBar.preferredSize.height - MediaQuery.of(context).padding.top - MediaQuery.of(context).padding.bottom) *
+                  0.3,
+          child: Chart(recentTransactions),
+        ),
+        transactionList,
+      ];
+    }
+
     final pageBody = OrientationBuilder(
       builder: (context, orientation) => SafeArea(
         child: SingleChildScrollView(
@@ -147,39 +179,8 @@ class _MyAppState extends State<MyApp> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              if (orientation == Orientation.landscape)
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text('Wykres'),
-                    Switch.adaptive(
-                        value: _showChart,
-                        onChanged: (_) {
-                          setState(() {
-                            _showChart = !_showChart;
-                          });
-                        }),
-                  ],
-                ),
-              if (orientation != Orientation.landscape)
-                Container(
-                  height: (MediaQuery.of(context).size.height -
-                          appBar.preferredSize.height -
-                          MediaQuery.of(context).padding.top -
-                          MediaQuery.of(context).padding.bottom) *
-                      0.3,
-                  child: Chart(recentTransactions),
-                ),
-              if (orientation != Orientation.landscape) transactionList,
-              if (orientation == Orientation.landscape)
-                Container(
-                  height: (MediaQuery.of(context).size.height -
-                          appBar.preferredSize.height -
-                          MediaQuery.of(context).padding.top -
-                          MediaQuery.of(context).padding.bottom) *
-                      0.6,
-                  child: _showChart ? Chart(recentTransactions) : transactionList,
-                ),
+              if (orientation == Orientation.landscape) ..._buildLandscapeContent(context),
+              if (orientation != Orientation.landscape) ..._buildPortraitContent(context),
             ],
           ),
         ),
@@ -206,9 +207,9 @@ class _MyAppState extends State<MyApp> {
               floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
               floatingActionButton: Builder(
                 builder: (context) => FloatingActionButton(
-                        child: const Icon(Icons.add),
-                        onPressed: () => _startAddNewTransaction(context),
-                      ),
+                  child: const Icon(Icons.add),
+                  onPressed: () => _startAddNewTransaction(context),
+                ),
               ),
               appBar: appBar,
               body: pageBody,
