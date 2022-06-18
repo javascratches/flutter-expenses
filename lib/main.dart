@@ -102,34 +102,40 @@ class _MyAppState extends State<MyApp> {
       ),
     );
 
-    final dynamic appBar = Platform.isIOS
-        ? CupertinoNavigationBar(
-            middle: const Text('Manager wydatków'),
-            trailing: Row(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Builder(
-                    builder: (context) => GestureDetector(
-                          onTap: () => _startAddNewTransaction(context),
-                          child: const Icon(CupertinoIcons.add),
-                        ))
-              ],
+    Widget _buildCupertinoNavigationBar() {
+      return CupertinoNavigationBar(
+        middle: const Text('Manager wydatków'),
+        trailing: Row(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Builder(
+                builder: (context) => GestureDetector(
+                      onTap: () => _startAddNewTransaction(context),
+                      child: const Icon(CupertinoIcons.add),
+                    ))
+          ],
+        ),
+      );
+    }
+
+    Widget _buildAppBar() {
+      return AppBar(
+        title: const Text(
+          'Manager wydatków',
+        ),
+        actions: [
+          Builder(
+            builder: (context) => IconButton(
+              onPressed: () => _startAddNewTransaction(context),
+              icon: const Icon(Icons.add),
             ),
           )
-        : AppBar(
-            title: const Text(
-              'Manager wydatków',
-            ),
-            actions: [
-              Builder(
-                builder: (context) => IconButton(
-                  onPressed: () => _startAddNewTransaction(context),
-                  icon: const Icon(Icons.add),
-                ),
-              )
-            ],
-          );
+        ],
+      );
+    }
+
+    final dynamic appBar = Platform.isIOS ? _buildCupertinoNavigationBar() : _buildAppBar();
 
     final transactionList = Builder(builder: (context) {
       return Container(
