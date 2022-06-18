@@ -47,6 +47,18 @@ class _MyAppState extends State<MyApp> {
       amount: 99.99,
       date: DateTime.now().subtract(const Duration(days: 3)),
     ),
+    Transaction(
+      id: 't5',
+      title: 'Masło',
+      amount: 7.99,
+      date: DateTime.now().subtract(const Duration(days: 2)),
+    ),
+    Transaction(
+      id: 't6',
+      title: 'Koń pociągowy',
+      amount: 1500,
+      date: DateTime.now(),
+    ),
   ];
 
   bool _showChart = false;
@@ -137,11 +149,14 @@ class _MyAppState extends State<MyApp> {
 
     final dynamic appBar = Platform.isIOS ? _buildCupertinoNavigationBar() : _buildAppBar();
 
-    final transactionList = Builder(builder: (context) {
+    final transactionList = LayoutBuilder(builder: (context, constraints) {
+      var mediaQuery = MediaQuery.of(context);
+      print(constraints);
+      var _height = (mediaQuery.size.height - appBar.preferredSize.height - mediaQuery.padding.top - mediaQuery.padding.bottom) *
+                (_showChart ? 0.7 : 1);
+      print('TransactionList height $_height, showChart=$_showChart');
       return SizedBox(
-        height:
-            (MediaQuery.of(context).size.height - appBar.preferredSize.height - MediaQuery.of(context).padding.top - MediaQuery.of(context).padding.bottom) *
-                (_showChart ? 0.7 : 1),
+        height: _height,
         child: TransactionList(_transactions, _deleteTransaction),
       );
     });
@@ -167,6 +182,7 @@ class _MyAppState extends State<MyApp> {
     }
 
     List<Widget> _buildPortraitContent(BuildContext context) {
+      _showChart = true;
       return [
         SizedBox(
           height:

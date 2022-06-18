@@ -23,7 +23,7 @@ class TransactionList extends StatelessWidget {
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
                   const SizedBox(height: 10),
-                  Container(
+                  SizedBox(
                     height: constraints.maxHeight * 0.5,
                     child: Image.asset(
                       'assets/images/waiting.png',
