@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -38,11 +37,11 @@ class _NewTransactionState extends State<NewTransaction> {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               TextField(
-                decoration: InputDecoration(labelText: 'Tytuł'),
+                decoration: const InputDecoration(labelText: 'Tytuł'),
                 controller: _titleController,
               ),
               TextField(
-                decoration: InputDecoration(labelText: 'Wartość'),
+                decoration: const InputDecoration(labelText: 'Wartość'),
                 controller: _amountController,
                 keyboardType: TextInputType.number,
                 onSubmitted: (_) => _submitData(),
@@ -91,7 +90,7 @@ class _NewTransactionState extends State<NewTransaction> {
 
   void _presentDatePicker() {
     showDatePicker(
-      locale: Locale('pl', 'PL'),
+      locale: const Locale('pl', 'PL'),
       context: context,
       initialDate: DateTime.now(),
       firstDate: DateTime(2019),

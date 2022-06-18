@@ -104,7 +104,7 @@ class _MyAppState extends State<MyApp> {
 
     final dynamic appBar = Platform.isIOS
         ? CupertinoNavigationBar(
-            middle: Text('Manager wydatków'),
+            middle: const Text('Manager wydatków'),
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.end,
@@ -112,7 +112,7 @@ class _MyAppState extends State<MyApp> {
                 Builder(
                     builder: (context) => GestureDetector(
                           onTap: () => _startAddNewTransaction(context),
-                          child: Icon(CupertinoIcons.add),
+                          child: const Icon(CupertinoIcons.add),
                         ))
               ],
             ),
@@ -131,7 +131,7 @@ class _MyAppState extends State<MyApp> {
             ],
           );
 
-    var transactionList = Builder(builder: (context) {
+    final transactionList = Builder(builder: (context) {
       return Container(
         height:
             (MediaQuery.of(context).size.height - appBar.preferredSize.height - MediaQuery.of(context).padding.top - MediaQuery.of(context).padding.bottom) *
@@ -191,8 +191,8 @@ class _MyAppState extends State<MyApp> {
             title: 'Manager wydatków',
             localizationsDelegates: const [GlobalMaterialLocalizations.delegate],
             home: CupertinoPageScaffold(
-              child: pageBody,
               navigationBar: appBar,
+              child: pageBody,
             ))
         : MaterialApp(
             localizationsDelegates: const [GlobalMaterialLocalizations.delegate],

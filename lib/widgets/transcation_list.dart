@@ -37,7 +37,7 @@ class TransactionList extends StatelessWidget {
                 var tx = transactions[index];
                 return Card(
                   elevation: 10,
-                  margin: EdgeInsets.symmetric(vertical: 8, horizontal: 5),
+                  margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 5),
                   child: Dismissible(
                     key: Key(tx.id),
                     onDismissed: (_) {
@@ -50,7 +50,7 @@ class TransactionList extends StatelessWidget {
                       leading: CircleAvatar(
                         radius: 30,
                         child: Padding(
-                          padding: EdgeInsets.all(6),
+                          padding: const EdgeInsets.all(6),
                           child: FittedBox(
                             child: Text('${tx.amount.toStringAsFixed(2)} zł'),
                           ),
