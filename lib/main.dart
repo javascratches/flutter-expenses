@@ -138,7 +138,7 @@ class _MyAppState extends State<MyApp> {
     final dynamic appBar = Platform.isIOS ? _buildCupertinoNavigationBar() : _buildAppBar();
 
     final transactionList = Builder(builder: (context) {
-      return Container(
+      return SizedBox(
         height:
             (MediaQuery.of(context).size.height - appBar.preferredSize.height - MediaQuery.of(context).padding.top - MediaQuery.of(context).padding.bottom) *
                 (_showChart ? 0.7 : 1),
