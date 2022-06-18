@@ -35,13 +35,14 @@ class TransactionList extends StatelessWidget {
             })
           : ListView.builder(
               itemBuilder: (ctx, index) {
-                var tx = transactions[index];
-                return TransactionItem(tx: tx, deleteTransactionHandler: deleteTransactionHandler, mediaQuery: mediaQuery);
+                return TransactionItem(
+                  tx: transactions[index],
+                  deleteTransactionHandler: deleteTransactionHandler,
+                  mediaQuery: mediaQuery,
+                );
               },
               itemCount: transactions.length,
             ),
     );
   }
 }
-
-
